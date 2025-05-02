@@ -14,6 +14,7 @@ const errorHandler = (err, req, res, next) => {
 
 app.use(express.json());
 app.use("/categories", categoryRouter);
+app.use("/orders", orderRouter);
 
 app.use((req, res) => {
   throw new ErrorResponse("Invalid route", 404);
