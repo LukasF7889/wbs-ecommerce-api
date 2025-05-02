@@ -1,5 +1,6 @@
 import "./db/associations.js";
 import express from "express";
+import categoryRouter from "./routers/categoryRouter.js";
 import orderRouter from "./routers/orderRouter.js";
 import ErrorResponse from "./utils/ErrorResponse.js";
 
@@ -12,6 +13,7 @@ const errorHandler = (err, req, res, next) => {
 };
 
 app.use(express.json());
+app.use("/categories", categoryRouter);
 
 app.use((req, res) => {
   throw new ErrorResponse("Invalid route", 404);
