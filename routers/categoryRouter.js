@@ -7,7 +7,7 @@ import {
   deleteCategory,
 } from "../controllers/categories.js";
 import { validateSchema } from "../middleware/validateSchema.js";
-import categorySchema from "../joi/categorySchema.js";
+import categorySchema from "../schemas/categorySchema.js";
 
 const categoryRouter = Router();
 
