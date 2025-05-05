@@ -1,4 +1,4 @@
-import ErrorResponse from "../utils/ErrorResponse";
+import ErrorResponse from "../utils/ErrorResponse.js";
 
 const validateSchema = (schema) => async (req, res, next) => {
   const { error } = schema.validate(req.body);
