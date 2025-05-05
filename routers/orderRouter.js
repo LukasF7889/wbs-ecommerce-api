@@ -5,15 +5,15 @@ import {
   postOrders,
   putOrder,
   deleteOrder,
-} from "../controllers/orders";
-import validateSchema from "../middleware/validateSchema";
+} from "../controllers/orders.js";
+import validateSchema from "../middleware/validateSchema.js";
 
 const orderRouter = Router();
 
-userRouter.route("/").get(getOrders).post(validateSchema(postOrders));
+orderRouter.route("/").get(getOrders).post(validateSchema(postOrders));
 
-userRouter
-  .rout("/:id")
+orderRouter
+  .route("/:id")
   .get(getOrderById)
   .put(validateSchema(putOrder))
   .delete(deleteOrder);

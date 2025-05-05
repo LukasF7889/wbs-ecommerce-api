@@ -10,7 +10,7 @@ import validateSchema from "../middleware/validateSchema.js";
 import {
   postProductSchema,
   putProductSchema,
-} from "../schemas/productSchemas.js";
+} from "../schemas/productSchema.js";
 
 const productRouter = Router();
 
