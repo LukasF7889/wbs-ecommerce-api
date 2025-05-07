@@ -1,7 +1,7 @@
 import User from "../models/User.js";
 import ErrorResponse from "../utils/ErrorResponse.js";
 
-export const createUser = async (req, res, next) => {
+export const createUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
     const exist = await User.findOne({ where: { email } });
@@ -16,19 +16,18 @@ export const createUser = async (req, res, next) => {
 
     res.status(201).json(user);
   } catch (err) {
-    next(err);
+    res.status(err.statusCode).json({ message: err.message });
   }
 };
-export const getAllUsers = async (req, res, next) => {
+export const getAllUsers = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
     const users = await User.findAll({ attributes: { exclude: ["password"] } });
     res.status(201).json(users);
   } catch (err) {
-    next(err);
+    res.status(err.statusCode).json({ message: err.message });
   }
 };
-export const getUser = async (req, res, next) => {
+export const getUser = async (req, res) => {
   try {
     const { id } = req.params;
     const user = await User.findByPk(id, {
@@ -37,21 +36,22 @@ export const getUser = async (req, res, next) => {
     if (!user) throw new ErrorResponse("User not found", 404);
     res.status(201).json(user);
   } catch (err) {
-    next(err);
+    res.status(err.statusCode).json({ message: err.message });
   }
 };
-export const updateUser = async (req, res, next) => {
+export const updateUser = async (req, res) => {
   try {
     const { id } = req.params;
+    const { name, email } = req.body;
     const user = await User.findByPk(id);
     if (!user) throw new ErrorResponse("User not found", 404);
-    await user.update(req.body);
-    res.status(201).json(user);
+    await user.update({ name, email });
+    res.status(201).json({ name, email });
   } catch (err) {
-    next(err);
+    res.status(err.statusCode).json({ message: err.message });
   }
 };
-export const deleteUser = async (req, res, next) => {
+export const deleteUser = async (req, res) => {
   try {
     const { id } = req.params;
     const user = await User.findByPk(id);
@@ -59,6 +59,6 @@ export const deleteUser = async (req, res, next) => {
     await user.destroy();
     res.status(201).json({ message: "User deleted" });
   } catch (err) {
-    next(err);
+    res.status(err.statusCode).json({ message: err.message });
   }
 };
