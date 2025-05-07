@@ -7,7 +7,7 @@ import {
   deleteUser,
 } from "../controllers/users.js";
 import validateSchema from "../middleware/validateSchema.js";
-import userSchema from "../schemas/userSchema.js";
+import { userSchema, putUserSchema } from "../schemas/userSchema.js";
 
 const userRouter = Router();
 
@@ -19,7 +19,7 @@ userRouter
 userRouter
   .route("/:id")
   .get(getUser)
-  .put(validateSchema(userSchema), updateUser)
+  .put(validateSchema(putUserSchema), updateUser)
   .delete(deleteUser);
 
 export default userRouter;

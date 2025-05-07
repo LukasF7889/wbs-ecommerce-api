@@ -5,5 +5,7 @@ const userSchema = Joi.object({
   email: Joi.string().email().required(),
   password: Joi.string().min(3).max(30).required(),
 }).required();
-
-export default userSchema;
+const putUserSchema = userSchema.fork(["password"], (schema) =>
+  schema.optional()
+);
+export { userSchema, putUserSchema };
