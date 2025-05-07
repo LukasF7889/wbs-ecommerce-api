@@ -11,7 +11,9 @@ export const getCategoryById = async (req, res) => {
   const {
     params: { id },
   } = req;
-  const category = await Category.findByPk(id, { include: Product });
+  const category = await Category.findByPk(id, {
+    include: { model: Product, as: "products" },
+  });
   if (!category) throw new ErrorResponse("Category not found", 404);
   res.json(category);
 };
@@ -39,8 +41,18 @@ export const deleteCategory = async (req, res) => {
   const {
     params: { id },
   } = req;
-  const category = await Category.findByPk(id);
+  const category = await Category.findByPk(id, {
+    include: { model: Product, as: "products" },
+  });
   if (!category) throw new ErrorResponse("Category not found", 404);
-  await category.destroy();
+  if (category.products.length > 0) {
+    throw new ErrorResponse(
+      "Cannot delete category with existing products",
+      400
+    );
+  } else {
+    await category.destroy();
+  }
+
   res.json({ message: "Category deleted" });
 };
